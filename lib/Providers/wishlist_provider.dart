@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:game_catalog/database_connexion.dart';
 import '../Models/wishlist_model.dart';
+import '../database_connexion.dart';
 
 class WishlistProvider {
   Future<List<Wishlist>> getWishlist() async {

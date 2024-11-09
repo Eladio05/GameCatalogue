@@ -86,13 +86,22 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Sélectionner les catégories'),
+              backgroundColor: const Color(0xFF1A1A1D),
+              title: const Text(
+                'Sélectionner les catégories',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     ..._allCategories.map((category) {
                       return CheckboxListTile(
-                        title: Text(category.name),
+                        activeColor: const Color(0xFF800080),
+                        checkColor: Colors.white,
+                        title: Text(
+                          category.name,
+                          style: const TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                        ),
                         value: selectedCategories.contains(category.id),
                         onChanged: (bool? selected) {
                           setState(() {
@@ -105,12 +114,17 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                         },
                       );
                     }).toList(),
-                    const Divider(),
+                    const Divider(color: Colors.white),
                     TextField(
                       controller: newCategoryController,
                       decoration: const InputDecoration(
                         labelText: 'Nouvelle catégorie',
+                        labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple),
+                        ),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -127,7 +141,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     }
                     Navigator.pop(context, selectedCategories);
                   },
-                  child: const Text('Enregistrer'),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFF800080))),
                 ),
               ],
             );
@@ -153,13 +167,22 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Sélectionner les plateformes'),
+              backgroundColor: const Color(0xFF1A1A1D),
+              title: const Text(
+                'Sélectionner les plateformes',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     ..._allPlatforms.map((platform) {
                       return CheckboxListTile(
-                        title: Text(platform.name),
+                        activeColor: const Color(0xFF800080),
+                        checkColor: Colors.white,
+                        title: Text(
+                          platform.name,
+                          style: const TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                        ),
                         value: selectedPlatforms.contains(platform.id),
                         onChanged: (bool? selected) {
                           setState(() {
@@ -172,12 +195,17 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                         },
                       );
                     }).toList(),
-                    const Divider(),
+                    const Divider(color: Colors.white),
                     TextField(
                       controller: newPlatformController,
                       decoration: const InputDecoration(
                         labelText: 'Nouvelle plateforme',
+                        labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple),
+                        ),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -194,7 +222,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     }
                     Navigator.pop(context, selectedPlatforms);
                   },
-                  child: const Text('Enregistrer'),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFF800080))),
                 ),
               ],
             );
@@ -240,7 +268,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
           width: 150,
           height: 200,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
+            border: Border.all(color: const Color(0xFF800080)),
             borderRadius: BorderRadius.circular(10),
           ),
           child: ClipRRect(
@@ -260,7 +288,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
             onTap: _pickImage,
             child: const Icon(
               Icons.edit,
-              color: Colors.black54,
+              color: Colors.purple,
             ),
           ),
         ),
@@ -272,7 +300,8 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ajouter à la Wishlist'),
+        title: const Text('Ajouter à la Wishlist', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+        backgroundColor: const Color(0xFF1A1A1D),
       ),
       body: _allCategories.isEmpty || _allPlatforms.isEmpty
           ? const Center(child: CircularProgressIndicator())
@@ -281,10 +310,21 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Titre du jeu'),
+                decoration: const InputDecoration(
+                  labelText: 'Titre du jeu',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
                 validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un titre' : null,
               ),
               const SizedBox(height: 20),
@@ -300,49 +340,81 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                 items: _priorityOptions.entries.map<DropdownMenuItem<int>>((entry) {
                   return DropdownMenuItem<int>(
                     value: entry.key,
-                    child: Text(entry.value),
+                    child: Text(entry.value, style: const TextStyle(color: Colors.white)),
                   );
                 }).toList(),
-                decoration: const InputDecoration(labelText: 'Priorité'),
+                decoration: const InputDecoration(
+                  labelText: 'Priorité',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple),
+                  ),
+                ),
+                dropdownColor: const Color(0xFF1A1A1D),
               ),
               const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(_currentDate),
+                  const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text(_currentDate, style: const TextStyle(color: Colors.white)),
                 ],
               ),
               const SizedBox(height: 20),
-              const Text('Catégories'),
+              const Text('Catégories', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               Wrap(
                 spacing: 8.0,
                 children: _allCategories
                     .where((category) => _selectedCategoryIds.contains(category.id))
-                    .map((category) => Chip(label: Text(category.name)))
+                    .map((category) => Chip(
+                  label: Text(category.name),
+                  backgroundColor: const Color(0xFF800080),
+                  labelStyle: const TextStyle(color: Colors.white),
+                ))
                     .toList(),
               ),
               ElevatedButton(
                 onPressed: _openCategorySelector,
-                child: const Text('Sélectionner les catégories'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1A1A1D),
+                  side: const BorderSide(color: Color(0xFF800080)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Sélectionner les catégories', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(height: 20),
-              const Text('Plateformes'),
+              const Text('Plateformes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               Wrap(
                 spacing: 8.0,
                 children: _allPlatforms
                     .where((platform) => _selectedPlatformIds.contains(platform.id))
-                    .map((platform) => Chip(label: Text(platform.name)))
+                    .map((platform) => Chip(
+                  label: Text(platform.name),
+                  backgroundColor: const Color(0xFF800080),
+                  labelStyle: const TextStyle(color: Colors.white),
+                ))
                     .toList(),
               ),
               ElevatedButton(
                 onPressed: _openPlatformSelector,
-                child: const Text('Sélectionner les plateformes'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1A1A1D),
+                  side: const BorderSide(color: Color(0xFF800080)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Sélectionner les plateformes', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: _saveWishlist,
-                child: const Text('Enregistrer'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF800080),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Enregistrer', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

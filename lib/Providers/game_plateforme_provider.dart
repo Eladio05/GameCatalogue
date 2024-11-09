@@ -1,8 +1,7 @@
-import 'package:game_catalog/database_connexion.dart';
 import '../Models/game_plateforme_model.dart';
+import '../database_connexion.dart';
 
 class GamePlateformeProvider {
-  // Récupérer toutes les plateformes d'un jeu spécifique
   Future<List<GamePlateforme>> getPlatformsByGameId(int gameId) async {
     final db = await DatabaseConnexion.instance.database;
     try{
@@ -20,7 +19,6 @@ class GamePlateformeProvider {
     }
   }
 
-  // Insérer une nouvelle plateforme pour un jeu
   Future<int> insertGamePlatform(GamePlateforme gamePlatform) async {
     final db = await DatabaseConnexion.instance.database;
     return await db.insert('GamePlateforme', gamePlatform.toMap());

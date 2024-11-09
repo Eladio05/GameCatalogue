@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:game_catalog/database_connexion.dart';
 import '../Models/game_categorie_model.dart';
+import '../database_connexion.dart';
 
 class GameCategorieProvider {
   // Récupérer toutes les catégories avec leurs noms
@@ -61,11 +61,7 @@ class GameCategorieProvider {
   // Mettre à jour les catégories d'un jeu
   Future<void> updateGameCategories(int gameId, List<int> categoryIds) async {
     final db = await DatabaseConnexion.instance.database;
-
-    // Supprimer les associations existantes
     await db.delete('GameGenre', where: 'idJeu = ?', whereArgs: [gameId]);
-
-    // Ajouter les nouvelles associations
     for (int categoryId in categoryIds) {
       await db.insert('GameGenre', {
         'idJeu': gameId,

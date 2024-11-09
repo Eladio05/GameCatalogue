@@ -12,7 +12,6 @@ import 'package:path/path.dart' as p;
 import '../Models/categorie_model.dart';
 import '../Models/plateforme_model.dart';
 
-
 class EditGamePage extends StatefulWidget {
   final Game game;
 
@@ -75,7 +74,6 @@ class _EditGamePageState extends State<EditGamePage> {
     final savedImagePath = '${appDir.path}/$imageFileName';
 
     await _newImageFile!.copy(savedImagePath);
-    print('Image sauvegardée à : $savedImagePath');
     return savedImagePath;
   }
 
@@ -89,13 +87,22 @@ class _EditGamePageState extends State<EditGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Modifier les catégories'),
+              backgroundColor: const Color(0xFF1A1A1D),
+              title: const Text(
+                'Modifier les catégories',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     ..._allCategories.map((category) {
                       return CheckboxListTile(
-                        title: Text(category.name),
+                        activeColor: const Color(0xFFFF0000),
+                        checkColor: Colors.white,
+                        title: Text(
+                          category.name,
+                          style: const TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                        ),
                         value: selectedCategories.contains(category.id),
                         onChanged: (bool? selected) {
                           setState(() {
@@ -108,12 +115,17 @@ class _EditGamePageState extends State<EditGamePage> {
                         },
                       );
                     }).toList(),
-                    const Divider(),
+                    const Divider(color: Colors.white),
                     TextField(
                       controller: newCategoryController,
                       decoration: const InputDecoration(
                         labelText: 'Nouvelle catégorie',
+                        labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -130,7 +142,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     }
                     Navigator.pop(context, selectedCategories);
                   },
-                  child: const Text('Enregistrer'),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
                 ),
               ],
             );
@@ -156,13 +168,22 @@ class _EditGamePageState extends State<EditGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Modifier les plateformes'),
+              backgroundColor: const Color(0xFF1A1A1D),
+              title: const Text(
+                'Modifier les plateformes',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     ..._allPlatforms.map((platform) {
                       return CheckboxListTile(
-                        title: Text(platform.name),
+                        activeColor: const Color(0xFFFF0000),
+                        checkColor: Colors.white,
+                        title: Text(
+                          platform.name,
+                          style: const TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                        ),
                         value: selectedPlatforms.contains(platform.id),
                         onChanged: (bool? selected) {
                           setState(() {
@@ -175,12 +196,17 @@ class _EditGamePageState extends State<EditGamePage> {
                         },
                       );
                     }).toList(),
-                    const Divider(),
+                    const Divider(color: Colors.white),
                     TextField(
                       controller: newPlatformController,
                       decoration: const InputDecoration(
                         labelText: 'Nouvelle plateforme',
+                        labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -197,7 +223,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     }
                     Navigator.pop(context, selectedPlatforms);
                   },
-                  child: const Text('Enregistrer'),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
                 ),
               ],
             );
@@ -234,59 +260,56 @@ class _EditGamePageState extends State<EditGamePage> {
       await GameCategorieProvider().updateGameCategories(widget.game.id!, _selectedCategoryIds);
       await GamePlateformeProvider().updateGamePlatforms(widget.game.id!, _selectedPlatformIds);
 
-      Navigator.pop(context, true);  // Indicate changes were saved
+      Navigator.pop(context, true);
     }
   }
 
-
   Widget _buildImage() {
     return Stack(
-      children: [
+        children: [
         Container(
-          width: 150,
-          height: 200,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: _newImageFile != null
-                ? Image.file(
-              _newImageFile!,
-              fit: BoxFit.cover,
-            )
-                : widget.game.imagePath.startsWith('/data/user')  // Vérifie si le chemin est un chemin local
-                ? Image.file(
-              File(widget.game.imagePath),
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                print('Image non trouvée à : ${widget.game.imagePath}');
-                return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
-              },
-            )
-                : Image.asset(
-              widget.game.imagePath,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                print('Image non trouvée à : ${widget.game.imagePath}');
-                return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
-              },
-            ),
-          ),
+        width: 150,
+        height: 200,
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFFFF0000)),
+          borderRadius: BorderRadius.circular(10),
         ),
-        Positioned(
-          top: 8,
-          right: 8,
-          child: InkWell(
-            onTap: _pickImage,
-            child: const Icon(
-              Icons.edit,
-              color: Colors.black54,
-            ),
-          ),
-        ),
-      ],
+        child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+    child: _newImageFile != null
+    ? Image.file(
+    _newImageFile!,
+    fit: BoxFit.cover,
+    )
+        : widget.game.imagePath.startsWith('/data/user')
+    ?Image.file(
+        File(widget.game.imagePath),
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
+      },
+    )
+        : Image.asset(
+    widget.game.imagePath,
+    fit: BoxFit.cover,
+    errorBuilder: (context, error, stackTrace) {
+    return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
+    },
+    ),
+    ),
+    ),
+    Positioned(
+    top: 8,
+    right: 8,
+    child: InkWell(
+    onTap: _pickImage,
+    child: const Icon(
+    Icons.edit,
+    color: Colors.red,
+    ),
+    ),
+    ),
+    ],
     );
   }
 
@@ -294,7 +317,8 @@ class _EditGamePageState extends State<EditGamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Modifier le jeu'),
+        title: const Text('Modifier le jeu', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+        backgroundColor: const Color(0xFF1A1A1D),
       ),
       body: _allCategories.isEmpty || _allPlatforms.isEmpty
           ? const Center(child: CircularProgressIndicator())
@@ -306,7 +330,17 @@ class _EditGamePageState extends State<EditGamePage> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Titre du jeu'),
+                decoration: const InputDecoration(
+                  labelText: 'Titre du jeu',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
                 validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un titre' : null,
               ),
               const SizedBox(height: 20),
@@ -322,54 +356,94 @@ class _EditGamePageState extends State<EditGamePage> {
                 items: _statusOptions.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(value, style: const TextStyle(color: Colors.white)),
                   );
                 }).toList(),
-                decoration: const InputDecoration(labelText: 'Statut'),
+                decoration: const InputDecoration(
+                  labelText: 'Statut',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                dropdownColor: const Color(0xFF1A1A1D),
               ),
               TextFormField(
                 controller: _hoursPlayedController,
-                decoration: const InputDecoration(labelText: 'Heures jouées'),
+                decoration: const InputDecoration(
+                  labelText: 'Heures jouées',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(widget.game.dateAdded),
+                  const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text(widget.game.dateAdded, style: const TextStyle(color: Colors.white)),
                 ],
               ),
               const SizedBox(height: 20),
-              const Text('Catégories'),
+              const Text('Catégories', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               Wrap(
                 spacing: 8.0,
                 children: _allCategories
                     .where((category) => _selectedCategoryIds.contains(category.id))
-                    .map((category) => Chip(label: Text(category.name)))
+                    .map((category) => Chip(
+                  label: Text(category.name),
+                  backgroundColor: const Color(0xFFFF0000),
+                  labelStyle: const TextStyle(color: Colors.white),
+                ))
                     .toList(),
               ),
               ElevatedButton(
                 onPressed: _openCategorySelector,
-                child: const Text('Modifier les catégories'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1A1A1D),
+                  side: const BorderSide(color: Color(0xFFFF0000)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Modifier les catégories', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(height: 20),
-              const Text('Plateformes'),
+              const Text('Plateformes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               Wrap(
                 spacing: 8.0,
                 children: _allPlatforms
                     .where((platform) => _selectedPlatformIds.contains(platform.id))
-                    .map((platform) => Chip(label: Text(platform.name)))
+                    .map((platform) => Chip(
+                  label: Text(platform.name),
+                  backgroundColor: const Color(0xFFFF0000),
+                  labelStyle: const TextStyle(color: Colors.white),
+                ))
                     .toList(),
               ),
               ElevatedButton(
                 onPressed: _openPlatformSelector,
-                child: const Text('Modifier les plateformes'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1A1A1D),
+                  side: const BorderSide(color: Color(0xFFFF0000)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Modifier les plateformes', style: TextStyle(color: Colors.white)),
               ),
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: _saveChanges,
-                child: const Text('Enregistrer'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF0000),),
+                child: const Text('Enregistrer', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -378,3 +452,4 @@ class _EditGamePageState extends State<EditGamePage> {
     );
   }
 }
+

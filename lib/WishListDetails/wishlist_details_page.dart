@@ -26,7 +26,6 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
   }
 
   void _loadCategoriesAndPlatforms() async {
-    // Charger les catégories associées à l'élément de la wishlist
     final wishlistCategories = await WishlistCategorieProvider().getCategoriesByWishlistId(widget.wish.id!);
     final allCategories = await CategorieProvider().getAllCategories();
     setState(() {
@@ -35,8 +34,6 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
           .map((cat) => cat.name)
           .toList();
     });
-
-    // Charger les plateformes associées à l'élément de la wishlist
     final wishlistPlatforms = await WishlistPlateformeProvider().getPlatformsByWishlistId(widget.wish.id!);
     final allPlatforms = await PlateformeProvider().getAllPlatforms();
     setState(() {
@@ -50,7 +47,7 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
   String _priorityToString(int priority) {
     switch (priority) {
       case 1:
-        return 'A joué un jour';
+        return 'À jouer un jour';
       case 2:
         return 'À découvrir';
       case 3:
@@ -69,7 +66,7 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
       width: 150,
       height: 200,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(color: const Color(0xFF800080)),
         borderRadius: BorderRadius.circular(10),
       ),
       child: ClipRRect(
@@ -79,14 +76,14 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
           File(widget.wish.imagePath),
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
+            return const Icon(Icons.broken_image, size: 80, color: Colors.purpleAccent);
           },
         )
             : Image.asset(
           widget.wish.imagePath,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
+            return const Icon(Icons.broken_image, size: 80, color: Colors.purpleAccent);
           },
         ),
       ),
@@ -96,48 +93,107 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1A1D),
       appBar: AppBar(
-        title: const Text('Détails de la Wishlist'),
+        backgroundColor: const Color(0xFF800080),
+        title: const Text(
+          'Détails de la Wishlist',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            color: Colors.white,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(child: _buildImage()),
             const SizedBox(height: 20),
             Text(
               widget.wish.gameTitle,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: 'Poppins',
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             Text(
               'Priorité: ${_priorityToString(widget.wish.priority)}',
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(
+                fontSize: 18,
+                color: Color(0xFF800080),
+                fontFamily: 'Poppins',
+              ),
             ),
             const SizedBox(height: 10),
             Text(
               'Date d\'ajout: ${widget.wish.dateAdded}',
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(
+                fontSize: 18,
+                color: Color(0xFF800080),
+                fontFamily: 'Poppins',
+              ),
             ),
             const SizedBox(height: 20),
             const Text(
               'Catégories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: 'Poppins',
+              ),
+              textAlign: TextAlign.center,
             ),
-            Wrap(
-              spacing: 8.0,
-              children: _categories.map((category) => Chip(label: Text(category))).toList(),
+            const SizedBox(height: 10),
+            Center(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8.0,
+                children: _categories.map((category) => Chip(
+                  label: Text(
+                    category,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  backgroundColor: const Color(0xFF800080),
+                )).toList(),
+              ),
             ),
             const SizedBox(height: 20),
             const Text(
               'Plateformes',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: 'Poppins',
+              ),
+              textAlign: TextAlign.center,
             ),
-            Wrap(
-              spacing: 8.0,
-              children: _platforms.map((platform) => Chip(label: Text(platform))).toList(),
+            const SizedBox(height: 10),
+            Center(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8.0,
+                children: _platforms.map((platform) => Chip(
+                  label: Text(
+                    platform,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  backgroundColor: const Color(0xFF800080),
+                )).toList(),
+              ),
             ),
           ],
         ),

@@ -1,8 +1,7 @@
-import 'package:game_catalog/database_connexion.dart';
 import '../Models/wishlist_plateforme_model.dart';
+import '../database_connexion.dart';
 
 class WishlistPlateformeProvider {
-  // Récupérer toutes les plateformes d'une wishlist spécifique
   Future<List<WishlistPlateforme>> getPlatformsByWishlistId(int wishlistId) async {
     final db = await DatabaseConnexion.instance.database;
     try {
@@ -20,20 +19,16 @@ class WishlistPlateformeProvider {
     }
   }
 
-  // Insérer une nouvelle plateforme pour une wishlist
   Future<int> insertWishlistPlatform(WishlistPlateforme wishlistPlatform) async {
     final db = await DatabaseConnexion.instance.database;
     return await db.insert('WishlistPlateforme', wishlistPlatform.toMap());
   }
 
-  // Mettre à jour les plateformes d'une wishlist
   Future<void> updateWishlistPlatforms(int wishlistId, List<int> platformIds) async {
     final db = await DatabaseConnexion.instance.database;
 
-    // Supprimer les associations existantes
     await db.delete('WishlistPlateforme', where: 'idWishList = ?', whereArgs: [wishlistId]);
 
-    // Ajouter les nouvelles associations
     for (int platformId in platformIds) {
       await db.insert('WishlistPlateforme', {
         'idWishList': wishlistId,

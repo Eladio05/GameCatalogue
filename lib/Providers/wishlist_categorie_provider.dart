@@ -1,8 +1,7 @@
-import 'package:game_catalog/database_connexion.dart';
 import '../Models/wishlist_categorie_model.dart';
+import '../database_connexion.dart';
 
 class WishlistCategorieProvider {
-  // Récupérer toutes les catégories associées à une wishlist spécifique
   Future<List<WishlistCategorie>> getCategoriesByWishlistId(int wishlistId) async {
     final db = await DatabaseConnexion.instance.database;
     try {
@@ -21,20 +20,15 @@ class WishlistCategorieProvider {
     }
   }
 
-  // Insérer une nouvelle catégorie pour une wishlist
   Future<int> insertWishlistCategory(WishlistCategorie wishlistCategory) async {
     final db = await DatabaseConnexion.instance.database;
     return await db.insert('WishlistGenre', wishlistCategory.toMap());
   }
 
-  // Mettre à jour les catégories d'une wishlist
   Future<void> updateWishlistCategories(int wishlistId, List<int> categoryIds) async {
     final db = await DatabaseConnexion.instance.database;
-
-    // Supprimer les associations existantes
     await db.delete('WishlistGenre', where: 'idWishList = ?', whereArgs: [wishlistId]);
 
-    // Ajouter les nouvelles associations
     for (int categoryId in categoryIds) {
       await db.insert('WishlistGenre', {
         'idWishList': wishlistId,

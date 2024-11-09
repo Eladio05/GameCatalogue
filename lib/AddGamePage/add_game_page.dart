@@ -83,13 +83,22 @@ class _AddGamePageState extends State<AddGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Sélectionner les catégories'),
+              backgroundColor: const Color(0xFF1A1A1D),
+              title: const Text(
+                'Sélectionner les catégories',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     ..._allCategories.map((category) {
                       return CheckboxListTile(
-                        title: Text(category.name),
+                        activeColor: const Color(0xFFFF0000),
+                        checkColor: Colors.white,
+                        title: Text(
+                          category.name,
+                          style: const TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                        ),
                         value: selectedCategories.contains(category.id),
                         onChanged: (bool? selected) {
                           setState(() {
@@ -102,12 +111,17 @@ class _AddGamePageState extends State<AddGamePage> {
                         },
                       );
                     }).toList(),
-                    const Divider(),
+                    const Divider(color: Colors.white),
                     TextField(
                       controller: newCategoryController,
                       decoration: const InputDecoration(
                         labelText: 'Nouvelle catégorie',
+                        labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -124,7 +138,7 @@ class _AddGamePageState extends State<AddGamePage> {
                     }
                     Navigator.pop(context, selectedCategories);
                   },
-                  child: const Text('Enregistrer'),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
                 ),
               ],
             );
@@ -150,13 +164,22 @@ class _AddGamePageState extends State<AddGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Sélectionner les plateformes'),
+              backgroundColor: const Color(0xFF1A1A1D),
+              title: const Text(
+                'Sélectionner les plateformes',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+              ),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
                     ..._allPlatforms.map((platform) {
                       return CheckboxListTile(
-                        title: Text(platform.name),
+                        activeColor: const Color(0xFFFF0000),
+                        checkColor: Colors.white,
+                        title: Text(
+                          platform.name,
+                          style: const TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                        ),
                         value: selectedPlatforms.contains(platform.id),
                         onChanged: (bool? selected) {
                           setState(() {
@@ -169,12 +192,17 @@ class _AddGamePageState extends State<AddGamePage> {
                         },
                       );
                     }).toList(),
-                    const Divider(),
+                    const Divider(color: Colors.white),
                     TextField(
                       controller: newPlatformController,
                       decoration: const InputDecoration(
                         labelText: 'Nouvelle plateforme',
+                        labelStyle: TextStyle(color: Colors.white),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -191,7 +219,7 @@ class _AddGamePageState extends State<AddGamePage> {
                     }
                     Navigator.pop(context, selectedPlatforms);
                   },
-                  child: const Text('Enregistrer'),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
                 ),
               ],
             );
@@ -238,7 +266,7 @@ class _AddGamePageState extends State<AddGamePage> {
           width: 150,
           height: 200,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
+            border: Border.all(color: const Color(0xFFFF0000)),
             borderRadius: BorderRadius.circular(10),
           ),
           child: ClipRRect(
@@ -258,7 +286,7 @@ class _AddGamePageState extends State<AddGamePage> {
             onTap: _pickImage,
             child: const Icon(
               Icons.edit,
-              color: Colors.black54,
+              color: Colors.red,
             ),
           ),
         ),
@@ -269,88 +297,144 @@ class _AddGamePageState extends State<AddGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ajouter un Jeu'),
-      ),
-      body: _allCategories.isEmpty || _allPlatforms.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
+        appBar: AppBar(
+          title: const Text('Ajouter un Jeu', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+          backgroundColor: const Color(0xFF1A1A1D),
+        ),
+        body: _allCategories.isEmpty || _allPlatforms.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Titre du jeu'),
-                validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un titre' : null,
-              ),
-              const SizedBox(height: 20),
-              _buildImage(),
-              const SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: _selectedStatus,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedStatus = newValue!;
-                  });
-                },
-                items: _statusOptions.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(labelText: 'Statut'),
-              ),
-              TextFormField(
-                controller: _hoursPlayedController,
-                decoration: const InputDecoration(labelText: 'Heures jouées'),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(_currentDate),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Text('Catégories'),
-              Wrap(
-                spacing: 8.0,
-                children: _allCategories
-                    .where((category) => _selectedCategoryIds.contains(category.id))
-                    .map((category) => Chip(label: Text(category.name)))
-                    .toList(),
-              ),
-              ElevatedButton(
-                onPressed: _openCategorySelector,
-                child: const Text('Sélectionner les catégories'),
-              ),
-              const SizedBox(height: 20),
-              const Text('Plateformes'),
-              Wrap(
-                spacing: 8.0,
-                children: _allPlatforms
-                    .where((platform) => _selectedPlatformIds.contains(platform.id))
-                    .map((platform) => Chip(label: Text(platform.name)))
-                    .toList(),
-              ),
-              ElevatedButton(
-                onPressed: _openPlatformSelector,
-                child: const Text('Sélectionner les plateformes'),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: _saveGame,
-                child: const Text('Enregistrer le jeu'),
-              ),
-            ],
+    child: Form(
+    key: _formKey,
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+    TextFormField(
+    controller: _titleController,
+    decoration: const InputDecoration(
+    labelText: 'Titre du jeu',
+    labelStyle: TextStyle(color: Colors.white),
+    enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.red),
+    ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+    ),
+      style: const TextStyle(color: Colors.white),
+      validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un titre' : null,
+    ),
+      const SizedBox(height: 20),
+      _buildImage(),
+      const SizedBox(height: 20),
+      DropdownButtonFormField<String>(
+        value: _selectedStatus,
+        onChanged: (String? newValue) {
+          setState(() {
+            _selectedStatus = newValue!;
+          });
+        },
+        items: _statusOptions.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value, style: const TextStyle(color: Colors.white)),
+          );
+        }).toList(),
+        decoration: const InputDecoration(
+          labelText: 'Statut',
+          labelStyle: TextStyle(color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
           ),
         ),
+        dropdownColor: const Color(0xFF1A1A1D),
       ),
+      const SizedBox(height: 20),
+      TextFormField(
+        controller: _hoursPlayedController,
+        decoration: const InputDecoration(
+          labelText: 'Heures jouées',
+          labelStyle: TextStyle(color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+        ),
+        style: const TextStyle(color: Colors.white),
+        keyboardType: TextInputType.number,
+      ),
+      const SizedBox(height: 20),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+          Text(_currentDate, style: const TextStyle(color: Colors.white)),
+        ],
+      ),
+      const SizedBox(height: 20),
+      const Text('Catégories', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      Wrap(
+        spacing: 8.0,
+        children: _allCategories
+            .where((category) => _selectedCategoryIds.contains(category.id))
+            .map((category) => Chip(
+          label: Text(category.name),
+          backgroundColor: const Color(0xFFFF0000),
+          labelStyle: const TextStyle(color: Colors.white),
+        ))
+            .toList(),
+      ),
+      ElevatedButton(
+        onPressed: _openCategorySelector,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF1A1A1D),
+          side: const BorderSide(color: Color(0xFFFF0000)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        child: const Text('Sélectionner les catégories', style: TextStyle(color: Colors.white)),
+      ),
+      const SizedBox(height: 20),
+      const Text('Plateformes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      Wrap(
+        spacing: 8.0,
+        children: _allPlatforms
+            .where((platform) => _selectedPlatformIds.contains(platform.id))
+            .map((platform) => Chip(
+          label: Text(platform.name),
+          backgroundColor: const Color(0xFFFF0000),
+          labelStyle: const TextStyle(color: Colors.white),
+        ))
+            .toList(),
+      ),
+      ElevatedButton(
+        onPressed: _openPlatformSelector,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF1A1A1D),
+          side: const BorderSide(color: Color(0xFFFF0000)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        child: const Text('Sélectionner les plateformes', style: TextStyle(color: Colors.white)),
+      ),
+      const SizedBox(height: 40),
+      ElevatedButton(
+        onPressed: _saveGame,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFFFF0000),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        child: const Text('Enregistrer le jeu', style: TextStyle(color: Colors.white)),
+      ),
+    ],
+    ),
+    ),
+        ),
     );
   }
 }
+

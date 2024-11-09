@@ -1,14 +1,12 @@
-import 'package:game_catalog/database_connexion.dart';
 import '../Models/plateforme_model.dart';
+import '../database_connexion.dart';
 
 class PlateformeProvider {
-  // Insérer une nouvelle plateforme dans la table `Plateforme`
   Future<int> insertPlatform(String platformName) async {
     final db = await DatabaseConnexion.instance.database;
     return await db.insert('Plateforme', {'nomPlateforme': platformName});
   }
 
-  // Récupérer toutes les plateformes avec leurs noms
   Future<List<Plateforme>> getAllPlatforms() async {
     final db = await DatabaseConnexion.instance.database;
     try{

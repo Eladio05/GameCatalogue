@@ -4,7 +4,6 @@ class WishlistPlateforme {
 
   WishlistPlateforme({required this.wishlistId, required this.platformId});
 
-  // Convertir en Map pour l'insertion dans SQLite
   Map<String, dynamic> toMap() {
     return {
       'idWishList': wishlistId,
@@ -12,7 +11,6 @@ class WishlistPlateforme {
     };
   }
 
-  // Convertir un Map en WishlistPlatform
   factory WishlistPlateforme.fromMap(Map<String, dynamic> map) {
     return WishlistPlateforme(
       wishlistId: map['idWishList'],

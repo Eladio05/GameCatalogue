@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'AddGamePage/add_game_page.dart';
-import 'AddGamePage/add_wishlist_page.dart';
 import 'GamePage/game_list_page.dart';
 import 'WishlistPage/wishlist_page.dart';
+import 'AddGamePage/add_game_page.dart';
+import 'AddGamePage/add_wishlist_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,86 +16,135 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gestion de Bibliothèque de Jeux',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        brightness: Brightness.dark,
+        primaryColor: const Color(0xFF1A1A1D),
+        scaffoldBackgroundColor: const Color(0xFF1A1A1D),
+        colorScheme: ColorScheme.dark(
+          primary: const Color(0xFF1A1A1D),
+          secondary: const Color(0xFFAD1457),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+          bodyMedium: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+          bodySmall: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+        ),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const BottomNavPage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class BottomNavPage extends StatefulWidget {
+  const BottomNavPage({super.key});
+
+  @override
+  _BottomNavPageState createState() => _BottomNavPageState();
+}
+
+class _BottomNavPageState extends State<BottomNavPage> {
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController();
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    _pageController.jumpToPage(index);
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onAddButtonPressed() {
+    if (_selectedIndex == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddGamePage()),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddWishlistPage()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ma Bibliothèque de Jeux'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      body: Stack(
+        children: [
+          PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            children: [
+              Theme(
+                data: ThemeData(
+                  brightness: Brightness.dark,
+                  primaryColor: const Color(0xFF1A1A1D),
+                  scaffoldBackgroundColor: const Color(0xFF1A1A1D),
+                  colorScheme: ColorScheme.dark(
+                    primary: const Color(0xFF1A1A1D),
+                    secondary: const Color(0xFFFF0000),
+                  ),
+                  textTheme: const TextTheme(
+                    bodyLarge: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    bodyMedium: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    bodySmall: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                  ),
+                ),
+                child: const GameCollectionPage(),
+              ),
+              Theme(
+                data: ThemeData(
+                  brightness: Brightness.dark,
+                  primaryColor: const Color(0xFF1A1A1D),
+                  scaffoldBackgroundColor: const Color(0xFF1A1A1D),
+                  colorScheme: ColorScheme.dark(
+                    primary: const Color(0xFF1A1A1D),
+                    secondary: const Color(0xFF8A2BE2),
+                  ),
+                  textTheme: const TextTheme(
+                    bodyLarge: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    bodyMedium: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    bodySmall: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                  ),
+                ),
+                child: const WishlistPage(),
+              ),
+            ],
+          ),
+          Positioned(
+            right: 16.0,
+            bottom: 16.0,
+            child: FloatingActionButton(
+              backgroundColor: _selectedIndex == 0 ? const Color(0xFFFF0000) : const Color(0xFF8A2BE2),
+              onPressed: _onAddButtonPressed,
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Bienvenue dans votre bibliothèque de jeux',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GameCollectionPage()),
-                );
-              },
-              icon: const Icon(Icons.videogame_asset),
-              label: const Text("Voir ma collection de jeux"),
-            ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const WishlistPage()),
-                );
-              },
-              icon: const Icon(Icons.favorite),
-              label: const Text("Voir ma wishlist"),
-            ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddGamePage()),
-                );
-              },
-              icon: const Icon(Icons.add),
-              label: const Text("Ajouter un nouveau jeu"),
-            ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddWishlistPage()),
-                );
-              },
-              icon: const Icon(Icons.add_box),
-              label: const Text("Ajouter à la wishlist"),
-            ),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF282828),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.videogame_asset),
+            label: 'Jeux',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Wishlist',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: _selectedIndex == 0 ? const Color(0xFFFF0000) : const Color(0xFF8A2BE2),
+        unselectedItemColor: Colors.white70,
+        onTap: _onItemTapped,
       ),
     );
   }

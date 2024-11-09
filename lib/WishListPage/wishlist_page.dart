@@ -46,9 +46,6 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ma Wishlist'),
-      ),
       body: _wishlist.isEmpty
           ? const Center(child: Text('Aucun jeu dans la wishlist'))
           : GridView.builder(
@@ -74,7 +71,7 @@ class _WishlistPageState extends State<WishlistPage> {
             child: WishlistCard(
               wish: wish,
               onDelete: _deleteWish,
-              onEdit: () => _editWish(wish), // Ajout de l'option d'édition
+              onEdit: () => _editWish(wish),
             ),
           );
         },
@@ -93,89 +90,97 @@ class _WishlistPageState extends State<WishlistPage> {
 class WishlistCard extends StatelessWidget {
   final Wishlist wish;
   final void Function(Wishlist) onDelete;
-  final VoidCallback onEdit; // Ajout de la fonction d'édition
+  final VoidCallback onEdit;
 
   const WishlistCard({
     Key? key,
     required this.wish,
     required this.onDelete,
-    required this.onEdit, // Ajout du paramètre d'édition
+    required this.onEdit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: double.infinity,
-          height: 250,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: wish.imagePath.startsWith('/data/user')
-                ? Image.file(
-              File(wish.imagePath),
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.broken_image, size: 80);
-              },
-            )
-                : Image.asset(
-              wish.imagePath,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.broken_image, size: 80);
-              },
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF282828), // Slightly lighter background for cards
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color(0xFF8A2BE2)), // Violet border for Wishlist
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            height: 250,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: wish.imagePath.startsWith('/data/user')
+                  ? Image.file(
+                File(wish.imagePath),
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 80);
+                },
+              )
+                  : Image.asset(
+                wish.imagePath,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 80);
+                },
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  wish.gameTitle,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+          const SizedBox(height: 10),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    wish.gameTitle,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
                 ),
-              ),
-              PopupMenuButton<String>(
-                onSelected: (value) {
-                  if (value == 'edit') {
-                    onEdit();
-                  } else if (value == 'delete') {
-                    onDelete(wish);
-                  }
-                },
-                itemBuilder: (BuildContext context) {
-                  return [
-                    const PopupMenuItem(
-                      value: 'edit',
-                      child: Text('Modifier'),
-                    ),
-                    const PopupMenuItem(
-                      value: 'delete',
-                      child: Text('Supprimer'),
-                    ),
-                  ];
-                },
-                icon: const Icon(Icons.more_vert),
-              ),
-            ],
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      onEdit();
+                    } else if (value == 'delete') {
+                      onDelete(wish);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      const PopupMenuItem(
+                        value: 'edit',
+                        child: Text('Modifier'),
+                      ),
+                      const PopupMenuItem(
+                        value: 'delete',
+                        child: Text('Supprimer'),
+                      ),
+                    ];
+                  },
+                  icon: const Icon(Icons.more_vert, color: Color(0xFF8A2BE2)), // Violet icon
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

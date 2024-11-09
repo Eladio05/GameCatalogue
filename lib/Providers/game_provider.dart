@@ -1,6 +1,6 @@
-import 'package:game_catalog/Models/game_model.dart';
-import 'package:game_catalog/database_connexion.dart';
 import 'package:sqflite/sqflite.dart';
+import '../Models/game_model.dart';
+import '../database_connexion.dart';
 
 class GameProvider {
   Future<int> insertGame(Game game) async {
