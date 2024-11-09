@@ -1,4 +1,3 @@
-import 'package:sqflite/sqflite.dart';
 import '../Models/wishlist_model.dart';
 import '../database_connexion.dart';
 
@@ -7,7 +6,6 @@ class WishlistProvider {
     final db = await DatabaseConnexion.instance.database;
     try{
       final List<Map<String, dynamic>> maps = await db.query('Wishlist');
-      print('Using database path: ${await getDatabasesPath()}');
       return List.generate(maps.length, (i) {
         return Wishlist.fromMap(maps[i]);
       });

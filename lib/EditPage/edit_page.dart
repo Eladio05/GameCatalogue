@@ -87,7 +87,7 @@ class _EditGamePageState extends State<EditGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              backgroundColor: const Color(0xFF1A1A1D),
+              backgroundColor: const Color.fromARGB(255, 26, 26, 29),
               title: const Text(
                 'Modifier les catégories',
                 style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
@@ -97,7 +97,7 @@ class _EditGamePageState extends State<EditGamePage> {
                   children: [
                     ..._allCategories.map((category) {
                       return CheckboxListTile(
-                        activeColor: const Color(0xFFFF0000),
+                        activeColor: const Color.fromARGB(255, 255, 0, 0),
                         checkColor: Colors.white,
                         title: Text(
                           category.name,
@@ -108,7 +108,8 @@ class _EditGamePageState extends State<EditGamePage> {
                           setState(() {
                             if (selected == true) {
                               selectedCategories.add(category.id!);
-                            } else {
+                            }
+                            else {
                               selectedCategories.remove(category.id);
                             }
                           });
@@ -142,7 +143,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     }
                     Navigator.pop(context, selectedCategories);
                   },
-                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color.fromARGB(255, 255, 0, 0))),
                 ),
               ],
             );
@@ -168,7 +169,7 @@ class _EditGamePageState extends State<EditGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              backgroundColor: const Color(0xFF1A1A1D),
+              backgroundColor: const Color.fromARGB(255, 26, 26, 29),
               title: const Text(
                 'Modifier les plateformes',
                 style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
@@ -178,7 +179,7 @@ class _EditGamePageState extends State<EditGamePage> {
                   children: [
                     ..._allPlatforms.map((platform) {
                       return CheckboxListTile(
-                        activeColor: const Color(0xFFFF0000),
+                        activeColor: const Color.fromARGB(255, 255, 0, 0),
                         checkColor: Colors.white,
                         title: Text(
                           platform.name,
@@ -189,7 +190,8 @@ class _EditGamePageState extends State<EditGamePage> {
                           setState(() {
                             if (selected == true) {
                               selectedPlatforms.add(platform.id!);
-                            } else {
+                            }
+                            else {
                               selectedPlatforms.remove(platform.id);
                             }
                           });
@@ -223,7 +225,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     }
                     Navigator.pop(context, selectedPlatforms);
                   },
-                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color.fromARGB(255, 255, 0, 0))),
                 ),
               ],
             );
@@ -266,50 +268,50 @@ class _EditGamePageState extends State<EditGamePage> {
 
   Widget _buildImage() {
     return Stack(
-        children: [
+      children: [
         Container(
-        width: 150,
-        height: 200,
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFFF0000)),
-          borderRadius: BorderRadius.circular(10),
+          width: 150,
+          height: 200,
+          decoration: BoxDecoration(
+            border: Border.all(color: const Color.fromARGB(255, 255, 0, 0)),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: _newImageFile != null
+                ? Image.file(
+              _newImageFile!,
+              fit: BoxFit.cover,
+            )
+                : widget.game.imagePath.startsWith('/data/user')
+                ? Image.file(
+              File(widget.game.imagePath),
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
+              },
+            )
+                : Image.asset(
+              widget.game.imagePath,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
+              },
+            ),
+          ),
         ),
-        child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-    child: _newImageFile != null
-    ? Image.file(
-    _newImageFile!,
-    fit: BoxFit.cover,
-    )
-        : widget.game.imagePath.startsWith('/data/user')
-    ?Image.file(
-        File(widget.game.imagePath),
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
-      },
-    )
-        : Image.asset(
-    widget.game.imagePath,
-    fit: BoxFit.cover,
-    errorBuilder: (context, error, stackTrace) {
-    return const Icon(Icons.broken_image, size: 80, color: Colors.grey);
-    },
-    ),
-    ),
-    ),
-    Positioned(
-    top: 8,
-    right: 8,
-    child: InkWell(
-    onTap: _pickImage,
-    child: const Icon(
-    Icons.edit,
-    color: Colors.red,
-    ),
-    ),
-    ),
-    ],
+        Positioned(
+          top: 8,
+          right: 8,
+          child: InkWell(
+            onTap: _pickImage,
+            child: const Icon(
+              Icons.edit,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -318,7 +320,7 @@ class _EditGamePageState extends State<EditGamePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Modifier le jeu', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
-        backgroundColor: const Color(0xFF1A1A1D),
+        backgroundColor: const Color.fromARGB(255, 26, 26, 29),
       ),
       body: _allCategories.isEmpty || _allPlatforms.isEmpty
           ? const Center(child: CircularProgressIndicator())
@@ -369,7 +371,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
-                dropdownColor: const Color(0xFF1A1A1D),
+                dropdownColor: const Color.fromARGB(255, 26, 26, 29),
               ),
               TextFormField(
                 controller: _hoursPlayedController,
@@ -402,7 +404,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     .where((category) => _selectedCategoryIds.contains(category.id))
                     .map((category) => Chip(
                   label: Text(category.name),
-                  backgroundColor: const Color(0xFFFF0000),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                   labelStyle: const TextStyle(color: Colors.white),
                 ))
                     .toList(),
@@ -410,8 +412,8 @@ class _EditGamePageState extends State<EditGamePage> {
               ElevatedButton(
                 onPressed: _openCategorySelector,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1A1A1D),
-                  side: const BorderSide(color: Color(0xFFFF0000)),
+                  backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+                  side: const BorderSide(color: Color.fromARGB(255, 255, 0, 0)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text('Modifier les catégories', style: TextStyle(color: Colors.white)),
@@ -424,7 +426,7 @@ class _EditGamePageState extends State<EditGamePage> {
                     .where((platform) => _selectedPlatformIds.contains(platform.id))
                     .map((platform) => Chip(
                   label: Text(platform.name),
-                  backgroundColor: const Color(0xFFFF0000),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                   labelStyle: const TextStyle(color: Colors.white),
                 ))
                     .toList(),
@@ -432,8 +434,8 @@ class _EditGamePageState extends State<EditGamePage> {
               ElevatedButton(
                 onPressed: _openPlatformSelector,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1A1A1D),
-                  side: const BorderSide(color: Color(0xFFFF0000)),
+                  backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+                  side: const BorderSide(color: Color.fromARGB(255, 255, 0, 0)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text('Modifier les plateformes', style: TextStyle(color: Colors.white)),
@@ -442,7 +444,8 @@ class _EditGamePageState extends State<EditGamePage> {
               ElevatedButton(
                 onPressed: _saveChanges,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFF0000),),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                ),
                 child: const Text('Enregistrer', style: TextStyle(color: Colors.white)),
               ),
             ],
@@ -452,4 +455,3 @@ class _EditGamePageState extends State<EditGamePage> {
     );
   }
 }
-

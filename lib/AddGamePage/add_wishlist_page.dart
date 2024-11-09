@@ -86,7 +86,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              backgroundColor: const Color(0xFF1A1A1D),
+              backgroundColor: const Color.fromARGB(255, 26, 26, 29),
               title: const Text(
                 'Sélectionner les catégories',
                 style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
@@ -96,7 +96,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                   children: [
                     ..._allCategories.map((category) {
                       return CheckboxListTile(
-                        activeColor: const Color(0xFF800080),
+                        activeColor: const Color.fromARGB(255, 128, 0, 128),
                         checkColor: Colors.white,
                         title: Text(
                           category.name,
@@ -107,7 +107,8 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                           setState(() {
                             if (selected == true) {
                               selectedCategories.add(category.id!);
-                            } else {
+                            }
+                            else {
                               selectedCategories.remove(category.id);
                             }
                           });
@@ -141,7 +142,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     }
                     Navigator.pop(context, selectedCategories);
                   },
-                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFF800080))),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color.fromARGB(255, 128, 0, 128))),
                 ),
               ],
             );
@@ -167,7 +168,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              backgroundColor: const Color(0xFF1A1A1D),
+              backgroundColor: const Color.fromARGB(255, 26, 26, 29),
               title: const Text(
                 'Sélectionner les plateformes',
                 style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
@@ -177,7 +178,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                   children: [
                     ..._allPlatforms.map((platform) {
                       return CheckboxListTile(
-                        activeColor: const Color(0xFF800080),
+                        activeColor: const Color.fromARGB(255, 128, 0, 128),
                         checkColor: Colors.white,
                         title: Text(
                           platform.name,
@@ -188,7 +189,8 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                           setState(() {
                             if (selected == true) {
                               selectedPlatforms.add(platform.id!);
-                            } else {
+                            }
+                            else {
                               selectedPlatforms.remove(platform.id);
                             }
                           });
@@ -222,7 +224,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     }
                     Navigator.pop(context, selectedPlatforms);
                   },
-                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFF800080))),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color.fromARGB(255, 128, 0, 128))),
                 ),
               ],
             );
@@ -257,9 +259,10 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
       await WishlistCategorieProvider().updateWishlistCategories(wishlistId, _selectedCategoryIds);
       await WishlistPlateformeProvider().updateWishlistPlatforms(wishlistId, _selectedPlatformIds);
 
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
+
 
   Widget _buildImage() {
     return Stack(
@@ -268,7 +271,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
           width: 150,
           height: 200,
           decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFF800080)),
+            border: Border.all(color: const Color.fromARGB(255, 128, 0, 128)),
             borderRadius: BorderRadius.circular(10),
           ),
           child: ClipRRect(
@@ -301,7 +304,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ajouter à la Wishlist', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
-        backgroundColor: const Color(0xFF1A1A1D),
+        backgroundColor: const Color.fromARGB(255, 26, 26, 29),
       ),
       body: _allCategories.isEmpty || _allPlatforms.isEmpty
           ? const Center(child: CircularProgressIndicator())
@@ -353,7 +356,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     borderSide: BorderSide(color: Colors.purple),
                   ),
                 ),
-                dropdownColor: const Color(0xFF1A1A1D),
+                dropdownColor: const Color.fromARGB(255, 26, 26, 29),
               ),
               const SizedBox(height: 20),
               Row(
@@ -371,7 +374,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     .where((category) => _selectedCategoryIds.contains(category.id))
                     .map((category) => Chip(
                   label: Text(category.name),
-                  backgroundColor: const Color(0xFF800080),
+                  backgroundColor: const Color.fromARGB(255, 128, 0, 128),
                   labelStyle: const TextStyle(color: Colors.white),
                 ))
                     .toList(),
@@ -379,8 +382,8 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
               ElevatedButton(
                 onPressed: _openCategorySelector,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1A1A1D),
-                  side: const BorderSide(color: Color(0xFF800080)),
+                  backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+                  side: const BorderSide(color: Color.fromARGB(255, 128, 0, 128)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text('Sélectionner les catégories', style: TextStyle(color: Colors.white)),
@@ -393,7 +396,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
                     .where((platform) => _selectedPlatformIds.contains(platform.id))
                     .map((platform) => Chip(
                   label: Text(platform.name),
-                  backgroundColor: const Color(0xFF800080),
+                  backgroundColor: const Color.fromARGB(255, 128, 0, 128),
                   labelStyle: const TextStyle(color: Colors.white),
                 ))
                     .toList(),
@@ -401,8 +404,8 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
               ElevatedButton(
                 onPressed: _openPlatformSelector,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1A1A1D),
-                  side: const BorderSide(color: Color(0xFF800080)),
+                  backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+                  side: const BorderSide(color: Color.fromARGB(255, 128, 0, 128)),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text('Sélectionner les plateformes', style: TextStyle(color: Colors.white)),
@@ -411,7 +414,7 @@ class _AddWishlistPageState extends State<AddWishlistPage> {
               ElevatedButton(
                 onPressed: _saveWishlist,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF800080),
+                  backgroundColor: const Color.fromARGB(255, 128, 0, 128),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text('Enregistrer', style: TextStyle(color: Colors.white)),

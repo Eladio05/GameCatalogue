@@ -66,7 +66,7 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
       width: 150,
       height: 200,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF800080)),
+        border: Border.all(color: const Color.fromARGB(255, 128, 0, 128)),
         borderRadius: BorderRadius.circular(10),
       ),
       child: ClipRRect(
@@ -93,9 +93,9 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1D),
+      backgroundColor: const Color.fromARGB(255, 26, 26, 29),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF800080),
+        backgroundColor: const Color.fromARGB(255, 128, 0, 128),
         title: const Text(
           'Détails de la Wishlist',
           style: TextStyle(
@@ -126,16 +126,16 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
               'Priorité: ${_priorityToString(widget.wish.priority)}',
               style: const TextStyle(
                 fontSize: 18,
-                color: Color(0xFF800080),
+                color: Color.fromARGB(255, 128, 0, 128),
                 fontFamily: 'Poppins',
               ),
             ),
             const SizedBox(height: 10),
             Text(
-              'Date d\'ajout: ${widget.wish.dateAdded}',
+              "Date d'ajout: ${widget.wish.dateAdded}",
               style: const TextStyle(
                 fontSize: 18,
-                color: Color(0xFF800080),
+                color: Color.fromARGB(255, 128, 0, 128),
                 fontFamily: 'Poppins',
               ),
             ),
@@ -163,7 +163,7 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
                       fontFamily: 'Poppins',
                     ),
                   ),
-                  backgroundColor: const Color(0xFF800080),
+                  backgroundColor: const Color.fromARGB(255, 128, 0, 128),
                 )).toList(),
               ),
             ),
@@ -191,7 +191,7 @@ class _WishlistDetailsPageState extends State<WishlistDetailsPage> {
                       fontFamily: 'Poppins',
                     ),
                   ),
-                  backgroundColor: const Color(0xFF800080),
+                  backgroundColor: const Color.fromARGB(255, 128, 0, 128),
                 )).toList(),
               ),
             ),

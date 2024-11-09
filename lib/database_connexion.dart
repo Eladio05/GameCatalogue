@@ -23,7 +23,6 @@ class DatabaseConnexion {
     if (!await databaseExists(path)) {
       ByteData data = await rootBundle.load("assets/database/gamecatalog.db");
       List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
       await File(path).writeAsBytes(bytes);
     }
     return openDatabase(path);

@@ -50,7 +50,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
       width: 150,
       height: 200,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFFF0000)),
+        border: Border.all(color: const Color.fromARGB(255, 255, 0, 0)),
         borderRadius: BorderRadius.circular(10),
       ),
       child: ClipRRect(
@@ -77,9 +77,9 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1D),
+      backgroundColor: const Color.fromARGB(255, 26, 26, 29),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFF0000),
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
         title: const Text(
           'Détails du Jeu',
           style: TextStyle(
@@ -110,7 +110,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
               'Statut: ${widget.game.status}',
               style: const TextStyle(
                 fontSize: 18,
-                color: Color(0xFFFF0000),
+                color: Color.fromARGB(255, 255, 0, 0),
                 fontFamily: 'Poppins',
               ),
             ),
@@ -119,7 +119,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
               'Heures jouées: ${widget.game.hoursPlayed}',
               style: const TextStyle(
                 fontSize: 18,
-                color: Color(0xFFFF0000),
+                color: Color.fromARGB(255, 255, 0, 0),
                 fontFamily: 'Poppins',
               ),
             ),
@@ -128,7 +128,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
               'Date d\'ajout: ${widget.game.dateAdded}',
               style: const TextStyle(
                 fontSize: 18,
-                color: Color(0xFFFF0000),
+                color: Color.fromARGB(255, 255, 0, 0),
                 fontFamily: 'Poppins',
               ),
             ),
@@ -156,7 +156,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                       fontFamily: 'Poppins',
                     ),
                   ),
-                  backgroundColor: const Color(0xFFFF0000),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                 )).toList(),
               ),
             ),
@@ -184,7 +184,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> {
                       fontFamily: 'Poppins',
                     ),
                   ),
-                  backgroundColor: const Color(0xFFFF0000),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                 )).toList(),
               ),
             ),

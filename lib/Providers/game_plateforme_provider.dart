@@ -24,14 +24,11 @@ class GamePlateformeProvider {
     return await db.insert('GamePlateforme', gamePlatform.toMap());
   }
 
-  // Mettre à jour les plateformes d'un jeu
   Future<void> updateGamePlatforms(int gameId, List<int> platformIds) async {
     final db = await DatabaseConnexion.instance.database;
 
-    // Supprimer les associations existantes
     await db.delete('GamePlateforme', where: 'idJeu = ?', whereArgs: [gameId]);
 
-    // Ajouter les nouvelles associations
     for (int platformId in platformIds) {
       await db.insert('GamePlateforme', {
         'idJeu': gameId,

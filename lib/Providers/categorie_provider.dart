@@ -1,4 +1,3 @@
-import 'package:sqflite/sqflite.dart';
 import '../Models/categorie_model.dart';
 import '../database_connexion.dart';
 

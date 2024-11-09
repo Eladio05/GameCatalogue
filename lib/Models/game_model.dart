@@ -15,7 +15,6 @@ class Game {
     required this.imagePath,
   });
 
-  // Convertir un Game en Map (pour insertion dans SQLite)
   Map<String, dynamic> toMap() {
     return {
       'idGame': id,
@@ -27,7 +26,6 @@ class Game {
     };
   }
 
-  // Convertir un Map en Game (pour lecture depuis SQLite)
   factory Game.fromMap(Map<String, dynamic> map) {
     return Game(
       id: map['idGame'],

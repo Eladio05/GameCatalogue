@@ -83,7 +83,7 @@ class _AddGamePageState extends State<AddGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              backgroundColor: const Color(0xFF1A1A1D),
+              backgroundColor: const Color.fromARGB(255, 26, 26, 29),
               title: const Text(
                 'Sélectionner les catégories',
                 style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
@@ -93,7 +93,7 @@ class _AddGamePageState extends State<AddGamePage> {
                   children: [
                     ..._allCategories.map((category) {
                       return CheckboxListTile(
-                        activeColor: const Color(0xFFFF0000),
+                        activeColor: const Color.fromARGB(255, 255, 0, 0),
                         checkColor: Colors.white,
                         title: Text(
                           category.name,
@@ -104,7 +104,8 @@ class _AddGamePageState extends State<AddGamePage> {
                           setState(() {
                             if (selected == true) {
                               selectedCategories.add(category.id!);
-                            } else {
+                            }
+                            else {
                               selectedCategories.remove(category.id);
                             }
                           });
@@ -138,7 +139,7 @@ class _AddGamePageState extends State<AddGamePage> {
                     }
                     Navigator.pop(context, selectedCategories);
                   },
-                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color.fromARGB(255, 255, 0, 0))),
                 ),
               ],
             );
@@ -164,7 +165,7 @@ class _AddGamePageState extends State<AddGamePage> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              backgroundColor: const Color(0xFF1A1A1D),
+              backgroundColor: const Color.fromARGB(255, 26, 26, 29),
               title: const Text(
                 'Sélectionner les plateformes',
                 style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
@@ -174,7 +175,7 @@ class _AddGamePageState extends State<AddGamePage> {
                   children: [
                     ..._allPlatforms.map((platform) {
                       return CheckboxListTile(
-                        activeColor: const Color(0xFFFF0000),
+                        activeColor: const Color.fromARGB(255, 255, 0, 0),
                         checkColor: Colors.white,
                         title: Text(
                           platform.name,
@@ -185,7 +186,8 @@ class _AddGamePageState extends State<AddGamePage> {
                           setState(() {
                             if (selected == true) {
                               selectedPlatforms.add(platform.id!);
-                            } else {
+                            }
+                            else {
                               selectedPlatforms.remove(platform.id);
                             }
                           });
@@ -219,7 +221,7 @@ class _AddGamePageState extends State<AddGamePage> {
                     }
                     Navigator.pop(context, selectedPlatforms);
                   },
-                  child: const Text('Enregistrer', style: TextStyle(color: Color(0xFFFF0000))),
+                  child: const Text('Enregistrer', style: TextStyle(color: Color.fromARGB(255, 255, 0, 0))),
                 ),
               ],
             );
@@ -235,7 +237,7 @@ class _AddGamePageState extends State<AddGamePage> {
     });
   }
 
-  void _saveGame() async {
+  Future<bool> _saveGame() async {
     if (_formKey.currentState!.validate()) {
       String imagePath = '';
       if (_newImageFile != null) {
@@ -251,12 +253,11 @@ class _AddGamePageState extends State<AddGamePage> {
       );
 
       final gameId = await GameProvider().insertGame(newGame);
-
       await GameCategorieProvider().updateGameCategories(gameId, _selectedCategoryIds);
       await GamePlateformeProvider().updateGamePlatforms(gameId, _selectedPlatformIds);
-
-      Navigator.pop(context);
+      return true;
     }
+    return false;
   }
 
   Widget _buildImage() {
@@ -266,7 +267,7 @@ class _AddGamePageState extends State<AddGamePage> {
           width: 150,
           height: 200,
           decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFFFF0000)),
+            border: Border.all(color: const Color.fromARGB(255, 255, 0, 0)),
             borderRadius: BorderRadius.circular(10),
           ),
           child: ClipRRect(
@@ -297,144 +298,148 @@ class _AddGamePageState extends State<AddGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Ajouter un Jeu', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
-          backgroundColor: const Color(0xFF1A1A1D),
-        ),
-        body: _allCategories.isEmpty || _allPlatforms.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
+      appBar: AppBar(
+        title: const Text('Ajouter un Jeu', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+        backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+      ),
+      body: _allCategories.isEmpty || _allPlatforms.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-    child: Form(
-    key: _formKey,
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-    TextFormField(
-    controller: _titleController,
-    decoration: const InputDecoration(
-    labelText: 'Titre du jeu',
-    labelStyle: TextStyle(color: Colors.white),
-    enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.red),
-    ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.red),
-      ),
-    ),
-      style: const TextStyle(color: Colors.white),
-      validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un titre' : null,
-    ),
-      const SizedBox(height: 20),
-      _buildImage(),
-      const SizedBox(height: 20),
-      DropdownButtonFormField<String>(
-        value: _selectedStatus,
-        onChanged: (String? newValue) {
-          setState(() {
-            _selectedStatus = newValue!;
-          });
-        },
-        items: _statusOptions.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value, style: const TextStyle(color: Colors.white)),
-          );
-        }).toList(),
-        decoration: const InputDecoration(
-          labelText: 'Statut',
-          labelStyle: TextStyle(color: Colors.white),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Titre du jeu',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+                validator: (value) => value == null || value.isEmpty ? 'Veuillez entrer un titre' : null,
+              ),
+              const SizedBox(height: 20),
+              _buildImage(),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _selectedStatus,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedStatus = newValue!;
+                  });
+                },
+                items: _statusOptions.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value, style: const TextStyle(color: Colors.white)),
+                  );
+                }).toList(),
+                decoration: const InputDecoration(
+                  labelText: 'Statut',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                dropdownColor: const Color.fromARGB(255, 26, 26, 29),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _hoursPlayedController,
+                decoration: const InputDecoration(
+                  labelText: 'Heures jouées',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  Text(_currentDate, style: const TextStyle(color: Colors.white)),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const Text('Catégories', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Wrap(
+                spacing: 8.0,
+                children: _allCategories
+                    .where((category) => _selectedCategoryIds.contains(category.id))
+                    .map((category) => Chip(
+                  label: Text(category.name),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                  labelStyle: const TextStyle(color: Colors.white),
+                ))
+                    .toList(),
+              ),
+              ElevatedButton(
+                onPressed: _openCategorySelector,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+                  side: const BorderSide(color: Color.fromARGB(255, 255, 0, 0)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Sélectionner les catégories', style: TextStyle(color: Colors.white)),
+              ),
+              const SizedBox(height: 20),
+              const Text('Plateformes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Wrap(
+                spacing: 8.0,
+                children: _allPlatforms
+                    .where((platform) => _selectedPlatformIds.contains(platform.id))
+                    .map((platform) => Chip(
+                  label: Text(platform.name),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                  labelStyle: const TextStyle(color: Colors.white),
+                ))
+                    .toList(),
+              ),
+              ElevatedButton(
+                onPressed: _openPlatformSelector,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 26, 26, 29),
+                  side: const BorderSide(color: Color.fromARGB(255, 255, 0, 0)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Sélectionner les plateformes', style: TextStyle(color: Colors.white)),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () async {
+                  final result = await _saveGame();
+                  if (result) {
+                    Navigator.pop(context, true);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('Enregistrer le jeu', style: TextStyle(color: Colors.white)),
+              ),
+            ],
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
         ),
-        dropdownColor: const Color(0xFF1A1A1D),
       ),
-      const SizedBox(height: 20),
-      TextFormField(
-        controller: _hoursPlayedController,
-        decoration: const InputDecoration(
-          labelText: 'Heures jouées',
-          labelStyle: TextStyle(color: Colors.white),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
-        ),
-        style: const TextStyle(color: Colors.white),
-        keyboardType: TextInputType.number,
-      ),
-      const SizedBox(height: 20),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Date d\'ajout: ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-          Text(_currentDate, style: const TextStyle(color: Colors.white)),
-        ],
-      ),
-      const SizedBox(height: 20),
-      const Text('Catégories', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-      Wrap(
-        spacing: 8.0,
-        children: _allCategories
-            .where((category) => _selectedCategoryIds.contains(category.id))
-            .map((category) => Chip(
-          label: Text(category.name),
-          backgroundColor: const Color(0xFFFF0000),
-          labelStyle: const TextStyle(color: Colors.white),
-        ))
-            .toList(),
-      ),
-      ElevatedButton(
-        onPressed: _openCategorySelector,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF1A1A1D),
-          side: const BorderSide(color: Color(0xFFFF0000)),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        child: const Text('Sélectionner les catégories', style: TextStyle(color: Colors.white)),
-      ),
-      const SizedBox(height: 20),
-      const Text('Plateformes', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-      Wrap(
-        spacing: 8.0,
-        children: _allPlatforms
-            .where((platform) => _selectedPlatformIds.contains(platform.id))
-            .map((platform) => Chip(
-          label: Text(platform.name),
-          backgroundColor: const Color(0xFFFF0000),
-          labelStyle: const TextStyle(color: Colors.white),
-        ))
-            .toList(),
-      ),
-      ElevatedButton(
-        onPressed: _openPlatformSelector,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF1A1A1D),
-          side: const BorderSide(color: Color(0xFFFF0000)),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        child: const Text('Sélectionner les plateformes', style: TextStyle(color: Colors.white)),
-      ),
-      const SizedBox(height: 40),
-      ElevatedButton(
-        onPressed: _saveGame,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFF0000),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        child: const Text('Enregistrer le jeu', style: TextStyle(color: Colors.white)),
-      ),
-    ],
-    ),
-    ),
-        ),
     );
   }
 }
-

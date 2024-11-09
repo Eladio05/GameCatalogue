@@ -1,9 +1,7 @@
-import 'package:sqflite/sqflite.dart';
 import '../Models/game_categorie_model.dart';
 import '../database_connexion.dart';
 
 class GameCategorieProvider {
-  // Récupérer toutes les catégories avec leurs noms
   Future<List<GameCategorie>> getAllCategories() async {
     final db = await DatabaseConnexion.instance.database;
     try {
